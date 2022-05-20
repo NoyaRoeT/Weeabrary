@@ -9,6 +9,7 @@ const path = require('path')
 
 // Routers
 const indexRouter = require('./routes/index');
+const animeRouter = require('./routes/anime');
 
 // Connecting to MongoDb
 const mongoose = require('mongoose');
@@ -28,5 +29,6 @@ app.use(expressLayouts);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/anime', animeRouter);
 
 app.listen(process.env.PORT || 3000);
