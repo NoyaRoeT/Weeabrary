@@ -6,10 +6,11 @@ const express = require('express');
 const app = express();
 const expressLayouts = require('express-ejs-layouts');
 const path = require('path')
+const methodOverride = require('method-override');
 
 // Routers
 const indexRouter = require('./routes/index');
-const animeRouter = require('./routes/anime');
+const storiesRouter = require('./routes/stories');
 
 // Connecting to MongoDb
 const mongoose = require('mongoose');
@@ -27,8 +28,10 @@ app.set('layout', path.join('layouts', 'layout'));
 
 app.use(expressLayouts);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({limit: '10mb', extended: false}));
+app.use(methodOverride('_method'));
 
 app.use('/', indexRouter);
-app.use('/anime', animeRouter);
+app.use('/stories', storiesRouter);
 
 app.listen(process.env.PORT || 3000);

@@ -1,0 +1,8 @@
+<h2>Browse Stories</h2>
+<% for (const story of stories) { %>
+    <div>
+        <a href="/stories/<%= story.id%>"><%= story.title %></a>
+        <p>Created At: <%= story.createdAt.toLocaleDateString() %>, Updated: <%= story.lastModified.toLocaleDateString() %></p>
+        <p><%= story.synopsis %></p>
+    </div>    
+<% } %> 

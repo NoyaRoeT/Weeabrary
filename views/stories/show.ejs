@@ -1,0 +1,8 @@
+<h2><%= story.title %></h2>
+<p>Created At: <%= story.createdAt %>, Updated: <%= story.lastModified %></p>
+<p><%= story.synopsis %></p>
+<a href="/stories">Back</a>
+<a href="/stories/<%= story.id %>/edit">Edit</a>
+<form action="/stories/<%= story.id%>?_method=DELETE" method="POST">
+    <button type="submit">Delete</button>
+</form>

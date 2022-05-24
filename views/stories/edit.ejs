@@ -1,0 +1,5 @@
+<h2>Edit Story</h2>
+<form action="/stories/<%= story.id %>?_method=PUT" method="POST">
+    <%- include('_form_fields') %> 
+    <button type="submit">Save</button>
+</form>
