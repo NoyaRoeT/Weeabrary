@@ -22,6 +22,11 @@ const storySchema = new mongoose.Schema({
     lastModified: {
         type: Date,
         default: Date.now,
+    },
+    chapters: {
+        type: [mongoose.Schema.ObjectId],
+        ref: 'Chapter',
+        default: [],
     }
 })
 

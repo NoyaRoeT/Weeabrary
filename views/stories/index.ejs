@@ -1,8 +1,12 @@
-<h2>Browse Stories</h2>
+<h1>Browse Stories</h1>
 <% for (const story of stories) { %>
     <div>
-        <a href="/stories/<%= story.id%>"><%= story.title %></a>
-        <p>Created At: <%= story.createdAt.toLocaleDateString() %>, Updated: <%= story.lastModified.toLocaleDateString() %></p>
+        <h2><%= story.title %></h2>
         <p><%= story.synopsis %></p>
+        <a href="/stories/<%= story.id %>">View</a>
+        <a href="/stories/<%= story.id %>/edit">Edit</a>
+        <form action="/stories/<%= story.id%>?_method=DELETE" method="POST">
+            <button type="submit">Delete</button>
+        </form>
     </div>    
 <% } %> 
