@@ -1,0 +1,5 @@
+<h1>Edit Chapter: <%= chapter.title %></h1>
+<form action="/myworks/<%= story.id %>/chapters/<%= chapter.id %>?_method=PUT" method="POST">
+    <%- include("_form_fields") %>
+    <button type="submit">Save</button>
+</form>

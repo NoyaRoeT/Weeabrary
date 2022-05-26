@@ -1,0 +1,20 @@
+<h1>Edit Story</h1>
+<div>
+    <h2>Story Details</h2>
+    <form action="/myworks/<%= story.id %>?_method=PUT" method="POST">
+        <%- include("_form_fields") %>
+        <button type="submit">Save</button>
+    </form>
+</div>
+
+<div>
+    <h2>Table of Contents</h2>
+    <a href="/myworks/<%= story.id %>/chapters/new">Add Chapter</a>
+    
+    <% for (let i = 0; i != story.chapters.length; ++i) { %>
+        <% const chapter = story.chapters[i]; %> 
+        <div>
+            <p><%= chapter.title %> <a href="/myworks/<%= story.id %>/chapters/<%= i %>">Edit</a><p>
+        </div>
+    <% } %> 
+</div>

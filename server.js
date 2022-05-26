@@ -11,6 +11,7 @@ const methodOverride = require('method-override');
 // Routers
 const indexRouter = require('./routes/index');
 const storiesRouter = require('./routes/stories');
+const myWorksRouter = require('./routes/my-works');
 
 // Connecting to MongoDb
 const mongoose = require('mongoose');
@@ -33,5 +34,6 @@ app.use(methodOverride('_method'));
 
 app.use('/', indexRouter);
 app.use('/stories', storiesRouter);
+app.use('/myworks', myWorksRouter);
 
 app.listen(process.env.PORT || 3000);

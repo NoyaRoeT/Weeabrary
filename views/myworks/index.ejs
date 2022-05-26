@@ -1,0 +1,12 @@
+<h1>My Works</h1>
+<a href="/myworks/new">Add Story</a>
+<% for (story of stories) { %>
+    <div>
+        <h2><%= story.title %></h2>
+        <p><%= story.synopsis %></p>
+        <a href="/myworks/<%= story.id %>">Edit</a>
+        <form action="/myworks/<%= story.id%>?_method=DELETE" method="POST">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+<% } %> 
