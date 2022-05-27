@@ -10,6 +10,10 @@ const chapterSchema = new mongoose.Schema({
         type: String,
         required: true,
         maxLength: 10000,
+    },
+    owningStory: {
+        type: mongoose.Schema.ObjectId ,
+        ref: 'Story',
     }
 })
 

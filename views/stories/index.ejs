@@ -4,9 +4,5 @@
         <h2><%= story.title %></h2>
         <p><%= story.synopsis %></p>
         <a href="/stories/<%= story.id %>">View</a>
-        <a href="/stories/<%= story.id %>/edit">Edit</a>
-        <form action="/stories/<%= story.id%>?_method=DELETE" method="POST">
-            <button type="submit">Delete</button>
-        </form>
     </div>    
 <% } %> 

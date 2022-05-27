@@ -2,16 +2,11 @@
 <p>Created At: <%= story.createdAt %>, Updated: <%= story.lastModified %></p>
 <p><%= story.synopsis %></p>
 <a href="/stories">Back</a>
-<a href="/stories/<%= story.id %>/edit">Edit</a>
-<form action="/stories/<%= story.id%>?_method=DELETE" method="POST">
-    <button type="submit">Delete</button>
-</form>
 
 <h2>Chapters</h2>
-<a href="/stories/<%= story.id %>/chapter/new">Add Chapter</a>
-<% for (let i = 1; i <= story.chapters.length; ++i) { %>
-    <% const chapter = story.chapters[i - 1]; %>
+<% for (let i = 0; i != story.chapters.length; ++i) { %>
+    <% const chapter = story.chapters[i]; %>
     <div>
-        <p><a href="/stories/<%= story.id %>/chapter/<%= i %>">Chapter <%= i %></a></p>
+        <p><a href="/stories/<%= story.id %>/chapter/<%= i %>"><%= chapter.title %></a></p>
     </div>    
 <% } %> 
