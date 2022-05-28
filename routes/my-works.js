@@ -19,9 +19,12 @@ router.get('/new', (req, res) => {
 })
 
 // GET /myworks/:storyId to get the form to edit a story
-router.get('/:storyId', async (req, res) => {
+router.get('/:slug', async (req, res) => {
     try {
-        const story = await Story.findById(req.params.storyId).populate('chapters', 'title');
+        const story = await Story.findOne({slug: req.params.slug}).populate('chapters', 'title');
+        if (! story) {
+            return res.redirect('/myworks');
+        }
         res.render('myworks/edit', {story});
     } catch {
         res.redirect('/myworks');
@@ -44,10 +47,11 @@ router.post('/', async (req, res) => {
 })
 
 // PUT /myworks/:storyId to edit a story
-router.put('/:storyId', async (req, res) => {
+router.put('/:slug', async (req, res) => {
     let story;
     try {
-        story = await Story.findById(req.params.storyId);
+        story = await Story.findOne({slug: req.params.slug});
+        if (!story) { return res.redirect('/myworks'); }
         story.title = req.body.title;
         story.synopsis = req.body.synopsis;
         story.lastModified = Date.now();
@@ -62,10 +66,10 @@ router.put('/:storyId', async (req, res) => {
 })
 
 // DELETE /myworks/:storyId to delete a story
-router.delete('/:storyId', async (req, res) => {
+router.delete('/:slug', async (req, res) => {
     let story;
     try {
-        story = await Story.findById(req.params.storyId);
+        story = await Story.findOne({slug: req.params.slug});
         if (!story) { return res.redirect('/myworks'); }
         await Chapter.deleteMany({owningStory: story._id});
         await Story.deleteOne({_id: story._id});
@@ -76,10 +80,10 @@ router.delete('/:storyId', async (req, res) => {
 })
 
 // GET /myworks/:storyId/chapters/new route to create a new chapter
-router.get('/:storyId/chapters/new', async (req, res) => {
+router.get('/:slug/chapters/new', async (req, res) => {
     let story;
     try {
-        story = await Story.findById(req.params.storyId);
+        story = await Story.findOne({slug: req.params.slug});
         if (!story) {
             return res.redirect('/myworks');
         }
@@ -93,29 +97,30 @@ router.get('/:storyId/chapters/new', async (req, res) => {
 })
 
 // GET /myworks/:storyId/chapters/:chNum/edit to edit a particular chapter
-router.get('/:storyId/chapters/:chNum', async (req, res) => {
+router.get('/:slug/chapters/:chNum', async (req, res) => {
     let story;
     try {
-        story = await Story.findById(req.params.storyId)
+        story = await Story.findOne({slug: req.params.slug})
         if (!story) {
-            res.redirect('/myworks');
+            return res.redirect('/myworks');
         }
         const chapterId = story.chapters[req.params.chNum];
         if (!chapterId) {
-            res.redirect(`/myworks/${story.id}`);
+            return res.redirect(`/myworks/${story.slug}`);
         }
         const chapter = await Chapter.findById(chapterId);
-        res.render('myworks/chapters/edit', {chapter: chapter , story: {title: story.title, id: story.id} })
+        chapter.num = req.params.chNum;
+        res.render('myworks/chapters/edit', {chapter: chapter , story: {title: story.title, slug: story.slug}});
     } catch (e) {
-        res.redirect('/myworks/:storyId');
+        res.redirect(`/myworks/${story.slug}`);
     }
 })
 
 // POST /myworks/:storyID/chapter route to save new chapter
-router.post('/:storyId/chapters', async (req, res) => {
+router.post('/:slug/chapters', async (req, res) => {
     let story;
     try {
-        story = await Story.findById(req.params.storyId);
+        story = await Story.findOne({slug: req.params.slug});
         if (!story) {
             return res.redirect('/myworks');
         }
@@ -127,51 +132,63 @@ router.post('/:storyId/chapters', async (req, res) => {
         await newChapter.save();
         story.chapters.push(newChapter._id);
         await story.save()
-        res.redirect(`/myworks/${story.id}`);
+        res.redirect(`/myworks/${story.slug}`);
     } catch (e) {
         if (!story) {
             return res.redirect('/myworks');
         }
-        res.redirect(`/myworks/${story.id}/chapters/new`);
+        res.redirect(`/myworks/${story.slug}/chapters/new`);
     }
 })
 
 // Save chapter update route
-router.put('/:storyId/chapters/:chId', async (req, res) => {
+router.put('/:slug/chapters/:chNum', async (req, res) => {
+    let story;
     let chapter;
     try {
-        chapter = await Chapter.findById(req.params.chId);
+        story = await Story.findOne({slug: req.params.slug});
+        if (!story) {
+            return res.redirect('/myworks');
+        }
+        chapter = await Chapter.findById(story.chapters[req.params.chNum]);
+        if (!chapter) {
+            return res.redirect(`/myworks/${story.slug}`);
+        }
         chapter.title = req.body.title;
         chapter.body = req.body.body;
         await chapter.save();
-    } catch {
+    } catch (e) {
+        console.log(e);
     } finally {
-        res.redirect(`/myworks/${req.params.storyId}/`);
+        // Since the route will handle nonexistent story by itself.
+        res.redirect(`/myworks/${req.params.slug}/`);
     }
 })
 
 // Delete chapter route
-router.delete('/:storyId/chapters/:chId', async (req, res) => {
+router.delete('/:slug/chapters/:chNum', async (req, res) => {
     let story;
     try {
-        story = await Story.findById(req.params.storyId)
+        story = await Story.findOne({slug: req.params.slug});
         if (!story) {
             return res.redirect('/myworks;')
         }
-        const index = story.chapters.indexOf(req.params.chId);
-        if (index == -1) {
-            return res.redirect(`/myworks/${story.id}`);
+        if (req.params.chNum < 0 || req.params.chNum >= story.chapters.length) {
+            return res.redirect(`/myworks/${story.slug}`);
         }
-        story.chapters.splice(index, 1);
-        await Chapter.deleteOne({id: req.params.chId});
+        console.log(`chNum: ${req.params.chNum}`);
+        const chId = story.chapters[req.params.chNum];
+        console.log(`chNum: ${chId}`);
+        story.chapters.splice(req.params.chNum, 1);
+        console.log(`chNum: ${chId}`);
+        await Chapter.deleteOne({_id: chId});
         await story.save();
-        res.redirect(`/myworks/${story.id}`);
+        res.redirect(`/myworks/${story.slug}`);
     } catch (e) {
-        console.log(e);
         if (!story) {
             return res.redirect('/myworks');
         }
-        return res.redirect(`/myworks/${story.id}`);
+        return res.redirect(`/myworks/${story.slug}`);
     }
 })
 

@@ -1,7 +1,7 @@
 <h1>Edit Story</h1>
 <div>
     <h2>Story Details</h2>
-    <form action="/myworks/<%= story.id %>?_method=PUT" method="POST">
+    <form action="/myworks/<%= story.slug %>?_method=PUT" method="POST">
         <%- include("_form_fields") %>
         <button type="submit">Save</button>
     </form>
@@ -9,14 +9,14 @@
 
 <div>
     <h2>Table of Contents</h2>
-    <a href="/myworks/<%= story.id %>/chapters/new">Add Chapter</a>
+    <a href="/myworks/<%= story.slug %>/chapters/new">Add Chapter</a>
     
     <% for (let i = 0; i != story.chapters.length; ++i) { %>
         <% const chapter = story.chapters[i]; %> 
         <div>
             <p><%= chapter.title %><p>
-            <a href="/myworks/<%= story.id %>/chapters/<%= i %>">Edit</a>
-            <form action="/myworks/<%= story.id %>/chapters/<%= chapter.id %>?_method=DELETE" method="POST">
+            <a href="/myworks/<%= story.slug %>/chapters/<%= i %>">Edit</a>
+            <form action="/myworks/<%= story.slug %>/chapters/<%= i %>?_method=DELETE" method="POST">
                 <button type="submit">Delete</button>
             </form>
         </div>

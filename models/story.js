@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const slug = require('mongoose-slug-generator');
+mongoose.plugin(slug);
 
 const storySchema = new mongoose.Schema({
     title: {
@@ -27,6 +29,11 @@ const storySchema = new mongoose.Schema({
         type: [mongoose.Schema.ObjectId],
         ref: 'Chapter',
         default: [],
+    },
+    slug: {
+        type: String,
+        slug: 'title',
+        unique: true,
     }
 })
 

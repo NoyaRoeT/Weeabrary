@@ -7,6 +7,6 @@
 <% for (let i = 0; i != story.chapters.length; ++i) { %>
     <% const chapter = story.chapters[i]; %>
     <div>
-        <p><a href="/stories/<%= story.id %>/chapter/<%= i %>"><%= chapter.title %></a></p>
+        <p><a href="/stories/<%= story.slug %>/chapter/<%= i %>"><%= chapter.title %></a></p>
     </div>    
 <% } %> 

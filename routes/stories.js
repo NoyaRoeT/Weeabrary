@@ -13,9 +13,12 @@ router.get('/', async (req, res) => {
 })
 
 // Show a specific story
-router.get('/:id', async (req, res) => {
+router.get('/:slug', async (req, res) => {
     try {
-        const story = await Story.findById(req.params.id).populate('chapters', 'title');
+        const story = await Story.findOne({slug: req.params.slug}).populate('chapters', 'title');
+        if (!story) {
+            return res.redirect('/stories');
+        }
         res.render('stories/show', {story: story});
     } catch (e) {
         res.redirect('/stories');
@@ -23,19 +26,20 @@ router.get('/:id', async (req, res) => {
 })
 
 // Get a chapter
-router.get('/:storyId/chapter/:chapterNum', async (req, res) => {
+router.get('/:slug/chapter/:chapterNum', async (req, res) => {
     let story;
     try {
-        story = await Story.findById(req.params.storyId);
+        story = await Story.findOne({slug: req.params.slug});
         if (!story) { return res.redirect('/stories'); }
         const chapter = await Chapter.findById(story.chapters[req.params.chapterNum]);
-        story = {title: story.title, id: story.id};
+        if (!chapter) { return res.redirect(`/stories/${story.slug}`); }
+        story = {title: story.title, slug: story.slug};
         res.render('stories/chapters/show', {story: story, chapter: chapter});
     } catch(e) {
         if (!story) {
             res.redirect('/stories');
         }
-        res.redirect(`/stories/${story.id}`);
+        res.redirect(`/stories/${story.slug}`);
     }
 })
 

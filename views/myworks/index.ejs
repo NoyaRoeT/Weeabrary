@@ -4,8 +4,8 @@
     <div>
         <h2><%= story.title %></h2>
         <p><%= story.synopsis %></p>
-        <a href="/myworks/<%= story.id %>">Edit</a>
-        <form action="/myworks/<%= story.id%>?_method=DELETE" method="POST">
+        <a href="/myworks/<%= story.slug %>">Edit</a>
+        <form action="/myworks/<%= story.slug%>?_method=DELETE" method="POST">
             <button type="submit">Delete</button>
         </form>
     </div>

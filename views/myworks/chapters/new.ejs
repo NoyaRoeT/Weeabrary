@@ -1,5 +1,5 @@
 <h1>Add Chapter</h1>
-<form action="/myworks/<%= story.id %>/chapters" method="POST">
+<form action="/myworks/<%= story.slug %>/chapters" method="POST">
     <%- include("_form_fields") %>
     <button type="submit">Add Chapter</button> 
 </form>
