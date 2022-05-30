@@ -1,5 +1,8 @@
 <h1><%= story.title %></h1>
 <p>Created At: <%= story.createdAt %>, Updated: <%= story.lastModified %></p>
+<% if (story.image.url) { %>
+    <img src="<%= story.image.url %>" alt="cover image">
+<% } %> 
 <p><%= story.synopsis %></p>
 <a href="/stories">Back</a>
 

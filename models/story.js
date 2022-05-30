@@ -34,7 +34,11 @@ const storySchema = new mongoose.Schema({
         type: String,
         slug: 'title',
         unique: true,
-    }
+    },
+    image: {
+        url: String,
+        filename: String,
+    },
 })
 
 module.exports = mongoose.model('Story', storySchema);

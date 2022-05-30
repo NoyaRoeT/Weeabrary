@@ -1,8 +1,14 @@
 <h1>Edit Story</h1>
 <div>
     <h2>Story Details</h2>
-    <form action="/myworks/<%= story.slug %>?_method=PUT" method="POST">
-        <%- include("_form_fields") %>
+    <% if (story.image.url) { %>
+        <img src="<%= story.image.url %>" alt="cover image">
+        <form action="/myworks/<%= story.slug %>/image?_method=DELETE" method="POST">
+            <button type="submit">Delete</button>
+        </form>
+    <% } %> 
+    <form action="/myworks/<%= story.slug %>?_method=PUT" method="POST" enctype="multipart/form-data">
+        <%- include("_form_fields") %>     
         <button type="submit">Save</button>
     </form>
 </div>

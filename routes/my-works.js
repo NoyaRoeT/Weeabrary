@@ -2,8 +2,11 @@ const express = require('express');
 const Story = require('../models/story');
 const Chapter = require('../models/chapter');
 const router = express.Router();
+const multer = require('multer');
+const {storage, cloudinary} = require('../cloudinary');
+const upload = multer({storage});
 
-// GET /myworks to list all novels created
+// list all novels created
 router.get('/', async (req, res) => {
     try {
         const stories = await Story.find({});
@@ -13,12 +16,12 @@ router.get('/', async (req, res) => {
     }
 })
 
-// GET /myworks/new to get the form to create a new novel
+// get the form to create a new novel
 router.get('/new', (req, res) => {
     res.render('myworks/new', {story: new Story()});
 })
 
-// GET /myworks/:storyId to get the form to edit a story
+// get the form to edit a story
 router.get('/:slug', async (req, res) => {
     try {
         const story = await Story.findOne({slug: req.params.slug}).populate('chapters', 'title');
@@ -31,23 +34,28 @@ router.get('/:slug', async (req, res) => {
     }
 })
 
-// POST /myworks to save a new novel
-router.post('/', async (req, res) => {
+// save a new novel
+router.post('/', upload.single('image'), async (req, res) => {
     const newStory = new Story({
         title: req.body.title,
-        synopsis: req.body.synopsis
+        synopsis: req.body.synopsis,
     });
+    if (req.file) {
+        newStory.image = {url: req.file.path, filename: req.file.filename};
+    }
     try {
         await newStory.save();
-        res.redirect('/myworks');
+        res.redirect(`/myworks/${story.slug}`);
     } catch (e) {
-        console.log(e);
+        if (req.file) {
+            await cloudinary.uploader.destroy(req.file.filename);
+        }
         res.render('myworks/new', {story: newStory, errorMessage: "Failed to create story"});
     }
 })
 
-// PUT /myworks/:storyId to edit a story
-router.put('/:slug', async (req, res) => {
+// edit a story
+router.put('/:slug', upload.single('image'), async (req, res) => {
     let story;
     try {
         story = await Story.findOne({slug: req.params.slug});
@@ -55,27 +63,62 @@ router.put('/:slug', async (req, res) => {
         story.title = req.body.title;
         story.synopsis = req.body.synopsis;
         story.lastModified = Date.now();
+        if (!req.file) {
+            await story.save();
+            return res.redirect(`/myworks/${story.slug}`);
+        }
+        const oldFilename = story.image.filename;
+        story.image = {url: req.file.path, filename: req.file.filename};
         await story.save();
-        res.redirect(`/myworks/${story.id}`);
+        if (oldFilename) {
+            await cloudinary.uploader.destroy(oldFilename);
+        }
+        res.redirect(`/myworks/${story.slug}`);
     } catch(e) {
+        if (req.file) {
+            await cloudinary.uploader.destroy(req.file.filename);
+        }
         if (!story) {
             return res.redirect('/myworks');
         }
-        res.render('myworks/edit', {story: story, errorMessage: "Failed to edit story"});
+        res.redirect(`/myworks/${story.slug}`);
     }
 })
 
-// DELETE /myworks/:storyId to delete a story
+// delete a story
 router.delete('/:slug', async (req, res) => {
     let story;
     try {
         story = await Story.findOne({slug: req.params.slug});
         if (!story) { return res.redirect('/myworks'); }
         await Chapter.deleteMany({owningStory: story._id});
+        if (story.image.filename) {
+            await cloudinary.uploader.destroy(story.image.filename);
+        }
         await Story.deleteOne({_id: story._id});
         res.redirect('/myworks');
     } catch (e) {
         res.redirect('/myworks');
+    }
+})
+
+// delete cover image
+router.delete('/:slug/image', async (req, res) => {
+    let story;
+    try {
+        story = await Story.findOne({slug: req.params.slug});
+        if (!story) {
+            return res.redirect('/myworks');
+        }
+        await cloudinary.uploader.destroy(story.image.filename);
+        story.image = {};
+        await story.save();
+        return res.redirect(`/myworks/${story.slug}`);
+    } catch (e) {
+        if (!story) {
+            return res.redirect('/myworks');
+        }
+        return res.redirect(`/myworks/${story.slug}`);
     }
 })
 
