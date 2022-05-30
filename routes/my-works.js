@@ -45,7 +45,7 @@ router.post('/', upload.single('image'), async (req, res) => {
     }
     try {
         await newStory.save();
-        res.redirect(`/myworks/${story.slug}`);
+        res.redirect(`/myworks/${newStory.slug}`);
     } catch (e) {
         if (req.file) {
             await cloudinary.uploader.destroy(req.file.filename);
