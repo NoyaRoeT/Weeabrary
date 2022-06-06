@@ -2,7 +2,7 @@
 <div>
     <h2>Story Details</h2>
     <% if (story.image.url) { %>
-        <img src="<%= story.image.url %>" alt="cover image">
+        <img src="<%= story.thumbnail %>" alt="cover image">
         <form action="/myworks/<%= story.slug %>/image?_method=DELETE" method="POST">
             <button type="submit">Delete</button>
         </form>

@@ -41,4 +41,8 @@ const storySchema = new mongoose.Schema({
     },
 })
 
+storySchema.virtual('thumbnail').get(function() {
+    return this.image.url.replace('/upload', '/upload/w_200');
+})
+
 module.exports = mongoose.model('Story', storySchema);
