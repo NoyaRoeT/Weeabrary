@@ -50,6 +50,7 @@ router.post('/', upload.single('image'), async (req, res) => {
         if (req.file) {
             await cloudinary.uploader.destroy(req.file.filename);
         }
+        // Need to replace this with redirect
         res.render('myworks/new', {story: newStory, errorMessage: "Failed to create story"});
     }
 })
@@ -62,7 +63,6 @@ router.put('/:slug', upload.single('image'), async (req, res) => {
         if (!story) { return res.redirect('/myworks'); }
         story.title = req.body.title;
         story.synopsis = req.body.synopsis;
-        story.lastModified = Date.now();
         if (!req.file) {
             await story.save();
             return res.redirect(`/myworks/${story.slug}`);

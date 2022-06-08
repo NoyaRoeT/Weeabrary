@@ -41,6 +41,11 @@ const storySchema = new mongoose.Schema({
     },
 })
 
+storySchema.pre('save', function(next) {
+    this.lastModified = Date.now();
+    next();
+})
+
 storySchema.virtual('thumbnail').get(function() {
     return this.image.url.replace('/upload', '/upload/w_200');
 })

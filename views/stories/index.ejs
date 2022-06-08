@@ -1,8 +1,28 @@
-<h1>Browse Stories</h1>
-<% for (const story of stories) { %>
-    <div>
-        <h2><%= story.title %></h2>
-        <p><%= story.synopsis %></p>
-        <a href="/stories/<%= story.slug %>">View</a>
-    </div>    
-<% } %> 
+<div class="content-header">
+    <div class="content-wrapper">
+        <div class="myworks-header">
+            <h2>Browse Stories</h2>
+        </div>
+    </div>
+</div>
+<div class="content-wrapper">
+    <% for (const story of stories) { %>
+        <div class="story-card">
+            <div class="story-card-title text-center">
+                <a href="/stories/<%= story.slug %>"><%= story.title %></a>
+            </div>
+
+            <% if (story.image.url) { %>
+                <div class="story-card-img">
+                    <img src=<%= story.thumbnail %> alt="cover image">
+                </div>
+            <% } %>
+
+            <div class="story-card-body">
+                <p class="story-card-body-desc">
+                    <%= story.synopsis %>
+                </p>
+            </div>
+        </div> 
+    <% } %> 
+</div>

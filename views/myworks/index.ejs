@@ -1,12 +1,38 @@
-<h1>My Works</h1>
-<a href="/myworks/new">Add Story</a>
+<div class="content-header">
+        <div class="content-wrapper">
+            <div class="myworks-header">
+                <h2>My Works</h2>
+                <a href="/myworks/new" class="btn-blue-bg">Add Story</a>
+            </div>
+        </div>
+</div>
 <% for (story of stories) { %>
-    <div>
-        <h2><%= story.title %></h2>
-        <p><%= story.synopsis %></p>
-        <a href="/myworks/<%= story.slug %>">Edit</a>
-        <form action="/myworks/<%= story.slug%>?_method=DELETE" method="POST">
-            <button type="submit">Delete</button>
-        </form>
+    <div class="story-card">
+        <div class="story-card-title text-center">
+            <a href="/stories/<%= story.slug %>"><%= story.title %></a>
+        </div>
+        <% if (story.image.url) { %>
+            <div class="story-card-img">
+                <img src="<%= story.thumbnail %>" alt="">
+            </div>
+        <% } %> 
+        <div class="story-card-body">
+            <div class="story-card-myworks-btns">
+                <a href="/myworks/<%= story.slug %>/chapters/new" class="btn-blue-border">
+                    <i class="fa-solid fa-plus"></i>
+                    Chapter
+                </a>
+                <a href="/myworks/<%= story.slug %>" class="btn-blue-border">
+                    <i class="fa-solid fa-pencil"></i>
+                    Edit
+                </a>
+                <form action="/myworks/<%= story.slug%>?_method=DELETE" method="POST">
+                    <button type="submit" class="btn-red-border">
+                        <i class="fa-solid fa-trash-can"></i>
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 <% } %> 

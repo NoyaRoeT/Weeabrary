@@ -7,9 +7,41 @@
 }
 
 :root {
-    --clr-dark-bg-primary: rgb(41, 38, 38); 
+    --clr-dark-bg-primary: #242729; 
     --clr-dark-bg-secondary: rgb(60, 60, 60);
-    --clr-dark-text-primary: rgb(233, 229, 229);
+    --clr-dark-text-primary: #fff;
+
+    --clr-light-story-title: #1b98e0;
+    --clr-light-story-button: #02609d;
+    --clr-light-story-delete: red;
+
+    --clr-chapter-border: #e0dada;
+    --clr-body-light-bg: #f2f2f2;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+img {
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    font-size: inherit;
+    font-family: inherit; 
+}
+
+input {
+    font-family: inherit;
+}
+
+textarea {
+    font-family: inherit;
 }
 
 /* Header Styling */
@@ -20,7 +52,7 @@ header {
 .navbar {
     display: flex;
     flex-direction: column;
-    align-items: center;   
+    align-items: center;
 }
 
 .navbar-list {
@@ -81,7 +113,204 @@ header {
     display: block;
 }
 
-@media (min-width: 37.6em) {
+.content-header {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    background-color: var(--clr-body-light-bg);
+}
+
+.myworks-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.myworks-header h2 {
+    font-size: 1.125rem;
+    margin: auto 0;
+    padding: 0.5em;
+    font-weight: 400;
+}
+
+.myworks-header a {
+    font-size: 0.875rem;
+    margin: auto 0;
+}
+
+/* Stories Container Styling */
+.story-card {
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #efefef;
+}
+
+.story-card .story-card-title {
+    color: var(--clr-light-story-title);
+    font-size: 1rem;
+    padding: 0.9em 0;
+    line-height: 1.5;
+    font-weight:700;
+}
+
+.story-card .story-card-title a {
+    color: var(--clr-light-story-title);
+}
+
+.story-card .story-card-img {
+    display: flex;
+    justify-content: center;
+}
+
+
+.story-card .story-card-img img {
+    width: 100px;
+    height: 142px;
+}
+
+.story-card .story-card-body .story-card-body-desc {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.66;
+}
+
+.story-card .story-card-body .story-card-myworks-btns {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    display: flex;
+    justify-content: center;
+}
+
+.story-card .story-card-body .story-card-myworks-btns a {
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
+}
+
+.story-card .story-card-body .story-card-myworks-btns form {
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
+}
+
+.story-card .story-card-body .story-card-myworks-btns form button {
+    width: 100%;
+    height: 100%;
+}
+
+/* My Works story edit tabs*/
+.myworks-edit-tabs {
+    margin-bottom: 10rem;
+}
+.myworks-edit-tabs .tab-list {
+   list-style:  none;
+   border: 1px solid var(--clr-chapter-border);
+   font-size: 0.9rem;
+   font-weight: 600;
+   color: gray;
+   display: flex;
+} 
+
+.myworks-edit-tabs .tab-list .tab-item {
+    border-right: 1px solid var(--clr-chapter-border);
+    padding: 0.5em;
+}
+
+.myworks-edit-tabs .tab-list .active {
+    color: var(--clr-dark-bg-primary);
+    border-bottom: 2px solid var(--clr-light-story-button);
+}
+
+
+/* My Works story details edit page */
+.myworks-story-edit {
+    display:none;
+}
+
+.myworks-edit-title h2 {
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    margin-top: 0.8rem;
+}
+
+.myworks-edit-form .myworks-edit-form-image {
+    margin-bottom: 0.975rem;
+}
+
+.myworks-edit-form .myworks-edit-form-image .myworks-form-image-preview {
+    width: 200px;
+    height: 284px;
+}
+
+.myworks-edit-form .myworks-edit-form-title {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.975rem;
+}
+
+.myworks-edit-form .myworks-edit-form-title input 
+{
+    padding: 0.4rem;
+    font-size: 0.875rem;
+}
+
+.myworks-edit-form .myworks-edit-form-desc {
+    display:flex;
+    flex-direction: column;
+    margin-bottom: 0.975rem;
+}
+
+.myworks-edit-form .myworks-edit-form-desc textarea {
+    padding: 0.4rem;
+    font-size: 0.875rem;
+}
+
+/* My Works Glossary */
+.myworks-chapter-edit {
+    display:none;
+}
+
+.myworks-chapter-edit .chapter-list {
+    list-style: none;
+}
+
+.myworks-chapter-edit .chapter-list .chapter-list-item {
+    font-size: 0.975rem;
+    border: 1px solid var(--clr-chapter-border);
+    padding: 0.4em;
+}
+
+.myworks-tab-page.active {
+    display: block;
+}
+
+/* Utilities */
+.content-wrapper {
+    margin: auto;
+    max-width: 1120px;
+    padding: 0 0.9375rem;
+}
+
+.btn-blue-border {
+    border: 1px solid var(--clr-light-story-title);
+    padding: 0.15em 0.4em;
+    color: var(--clr-light-story-button);
+}
+
+.btn-red-border {
+    border: 1px solid var(--clr-light-story-delete);
+    padding: 0.15em 0.4em;
+    color: var(--clr-light-story-delete);
+}
+
+.btn-blue-bg {
+    background-color: var(--clr-light-story-button);
+    padding: 0.15em 0.4em;
+    color: var(--clr-dark-text-primary);
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+/* @media (min-width: 37.6em) {
     header {
         display: flex;
         justify-content: center;
@@ -94,8 +323,6 @@ header {
     .navbar {
         flex-direction: row;
         justify-content: space-between;
-        width: 100%;
-        max-width: 1120px;
     }
     
     .navbar .web-title {
@@ -115,5 +342,9 @@ header {
         border-bottom: none;
         padding: 0;
     }
+
+    .main-content-width {
+        max-width: 1120px;
+    }
     
-}
+} */
