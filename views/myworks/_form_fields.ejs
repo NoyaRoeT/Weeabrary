@@ -1,6 +1,6 @@
-<div class="myworks-edit-form-image">
+<div class="myworks-story-form-image">
     <label for="image">Image</label>
-    <div class="myworks-form-image-preview">
+    <div class="<%= (story.image.url) ? 'myworks-story-form-image-preview' : '' %>">
         <% if (!story.image.url) { %>
             <img src="mizuki.jpg" alt="cover image">
         <% } else { %>
@@ -9,11 +9,11 @@
     </div>
     <input type="file" name="image" id="image">
 </div>
-<div class="myworks-edit-form-title">
+<div class="myworks-story-form-title">
     <label for="title">Title</label>
     <input type="text" name="title" required maxlength="50" value="<%= story.title %>">
 </div>
-<div class="myworks-edit-form-desc">
+<div class="myworks-story-form-desc">
     <label for="synopsis">Synopsis</label>
     <textarea name="synopsis" id="synopsis" cols="30" rows="10" maxlength="250" required><%= story.synopsis %></textarea>
 </div>

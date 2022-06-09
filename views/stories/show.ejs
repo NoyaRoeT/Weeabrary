@@ -1,15 +1,31 @@
-<h2><%= story.title %></h2>
-<p>Created At: <%= story.createdAt %>, Updated: <%= story.lastModified %></p>
-<% if (story.image.url) { %>
-    <img src="<%= story.thumbnail %>" alt="cover image">
-<% } %> 
-<p><%= story.synopsis %></p>
-<a href="/stories">Back</a>
+<div class="content-header">
+    <div class="content-wrapper page-content-header">
+        <h2>Story Details</h2>
+        <a href="/stories">Back</a>
+    </div>
+</div>
 
-<h2>Chapters</h2>
-<% for (let i = 0; i != story.chapters.length; ++i) { %>
-    <% const chapter = story.chapters[i]; %>
-    <div>
-        <p><a href="/stories/<%= story.slug %>/chapter/<%= i %>"><%= chapter.title %></a></p>
-    </div>    
-<% } %> 
+<div class="content-wrapper">
+    <div class="story-title">
+        <h2><%= story.title %></h2>
+    </div>
+    <div class="story-image">
+        <img src="<%= (story.image.url) ? story.image.url : '' %>" alt="cover image">
+    </div>
+    <p class="story-desc">
+        <%= story.synopsis %>
+    </p>
+    <div class="story-chapter-list">
+        <h3 class="story-chapter-list-title">Chapter List</h3>
+        <ul class="chapter-list">
+            <% for (let i = 0; i != story.chapters.length; ++i) { %>
+                <% const chapter = story.chapters[i]; %>
+                <li class="chapter-list-item">
+                    <a href="/stories/<%= story.slug %>/chapter/<%= i %>">
+                        <%= chapter.title %>
+                    </a>
+                </li>    
+            <% } %> 
+        </ul>
+    </div>
+</div>

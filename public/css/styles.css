@@ -120,19 +120,19 @@ header {
     background-color: var(--clr-body-light-bg);
 }
 
-.myworks-header {
+.page-content-header {
     display: flex;
     justify-content: space-between;
 }
 
-.myworks-header h2 {
+.page-content-header h2 {
     font-size: 1.125rem;
     margin: auto 0;
     padding: 0.5em;
     font-weight: 400;
 }
 
-.myworks-header a {
+.page-content-header a {
     font-size: 0.875rem;
     margin: auto 0;
 }
@@ -195,10 +195,10 @@ header {
 }
 
 /* My Works story edit tabs*/
-.myworks-edit-tabs {
+.myworks-tabs {
     margin-bottom: 10rem;
 }
-.myworks-edit-tabs .tab-list {
+.myworks-tabs .tab-list {
    list-style:  none;
    border: 1px solid var(--clr-chapter-border);
    font-size: 0.9rem;
@@ -207,77 +207,183 @@ header {
    display: flex;
 } 
 
-.myworks-edit-tabs .tab-list .tab-item {
+.myworks-tabs .tab-list .tab-item {
     border-right: 1px solid var(--clr-chapter-border);
     padding: 0.5em;
 }
 
-.myworks-edit-tabs .tab-list .active {
+.myworks-tabs .tab-list .active {
     color: var(--clr-dark-bg-primary);
     border-bottom: 2px solid var(--clr-light-story-button);
 }
 
 
 /* My Works story details edit page */
-.myworks-story-edit {
-    display:none;
-}
-
-.myworks-edit-title h2 {
+.myworks-story-title h2 {
     font-size: 1rem;
     margin-bottom: 0.8rem;
     margin-top: 0.8rem;
 }
 
-.myworks-edit-form .myworks-edit-form-image {
+.myworks-story-form .myworks-story-form-image {
     margin-bottom: 0.975rem;
 }
 
-.myworks-edit-form .myworks-edit-form-image .myworks-form-image-preview {
+.myworks-story-form .myworks-story-form-image .myworks-story-form-image-preview {
     width: 200px;
     height: 284px;
 }
 
-.myworks-edit-form .myworks-edit-form-title {
+.myworks-story-form .myworks-story-form-title {
     display: flex;
     flex-direction: column;
     margin-bottom: 0.975rem;
 }
 
-.myworks-edit-form .myworks-edit-form-title input 
+.myworks-story-form .myworks-story-form-title input 
 {
     padding: 0.4rem;
     font-size: 0.875rem;
 }
 
-.myworks-edit-form .myworks-edit-form-desc {
+.myworks-story-form .myworks-story-form-desc {
     display:flex;
     flex-direction: column;
     margin-bottom: 0.975rem;
 }
 
-.myworks-edit-form .myworks-edit-form-desc textarea {
+.myworks-story-form .myworks-story-form-desc textarea {
     padding: 0.4rem;
     font-size: 0.875rem;
 }
 
 /* My Works Glossary */
-.myworks-chapter-edit {
-    display:none;
+.myworks-story-glossary .chapter-list-header {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    text-align: right;
+    
 }
 
-.myworks-chapter-edit .chapter-list {
+.myworks-story-glossary .chapter-list {
     list-style: none;
 }
 
-.myworks-chapter-edit .chapter-list .chapter-list-item {
+.myworks-story-glossary .chapter-list .chapter-list-item {
     font-size: 0.975rem;
     border: 1px solid var(--clr-chapter-border);
     padding: 0.4em;
 }
 
-.myworks-tab-page.active {
+.myworks-tabs-page {
+    display: none;
+}
+
+.myworks-tabs-page.active {
     display: block;
+}
+
+/* Browse / Story details */
+.story-chapter-list {
+    list-style: none;
+}
+
+.story-title h2{
+    text-align: center;
+    font-size: 1.25rem;
+    line-height: 1.25em;
+    margin-top: 0.875rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--clr-chapter-border);
+}
+
+.story-image {
+    margin-top: 0.875rem;
+    border-bottom: 1px solid var(--clr-chapter-border);
+    padding-bottom: 0.875rem;
+}
+
+.story-image img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+    height: 284px;
+}
+
+.story-desc {
+    padding: 0.5em;
+    font-size: 0.875rem;
+}
+
+.story-chapter-list {
+    margin-top: 2rem;
+}
+
+.story-chapter-list h3 {
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--clr-dark-bg-primary);
+}
+
+.story-chapter-list .chapter-list {
+    list-style: none;
+}
+
+.story-chapter-list .chapter-list .chapter-list-item {
+    border-bottom: 1px solid var(--clr-chapter-border);
+    padding: 0.5rem;
+}
+
+/* Browse / Chapter Show Page */
+.chapter-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chapter-header .story-title {
+    text-align: center;
+    font-size: 1.25rem;
+    color: var(--clr-light-story-title);
+}
+
+.chapter-header .chapter-title {
+    text-align: center;
+    font-size: 1.45rem;
+    margin-bottom: 0.5rem;
+
+}
+
+.chapter-page-control .chapter-page-control-btn {
+    border-radius: 0.25em;
+    padding: 0.2em 2rem;
+}
+
+.chapter-page-control .story-show-btn {
+    border-radius: 0.25em;
+    padding: 0.2em 0.5rem;
+}
+
+.chapter-page-control .inactive {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.chapter-story-image  {
+    margin: 0.25rem 0;
+}
+
+.chapter-story-image img {
+    width: 100px;
+    height: 142px;
+}
+
+.chapter-body {
+    margin-top: 2rem;
+    padding: 0, 0.875rem;
+    font-size: 0.975rem;
+    line-height: 1.66;
 }
 
 /* Utilities */

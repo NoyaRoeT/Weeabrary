@@ -5,8 +5,9 @@ navButton.addEventListener('click', () => {
     navList.classList.toggle('active');
 })
 
-let tabItems = document.querySelectorAll('.myworks-edit-tabs .tab-list .tab-item');
-let tabPages = document.querySelectorAll('.myworks-tab-page');
+let tabItems = document.querySelectorAll('.myworks-tabs .tab-list .tab-item');
+let tabPages = document.querySelectorAll('.myworks-tabs-page');
+
 
 for (let tabItem of tabItems) {
     tabItem.addEventListener('click', () => {

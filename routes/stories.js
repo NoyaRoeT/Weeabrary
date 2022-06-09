@@ -33,7 +33,7 @@ router.get('/:slug/chapter/:chapterNum', async (req, res) => {
         if (!story) { return res.redirect('/stories'); }
         const chapter = await Chapter.findById(story.chapters[req.params.chapterNum]);
         if (!chapter) { return res.redirect(`/stories/${story.slug}`); }
-        story = {title: story.title, slug: story.slug};
+        chapter.chapterNum = parseInt(req.params.chapterNum);
         res.render('stories/chapters/show', {story: story, chapter: chapter});
     } catch(e) {
         if (!story) {

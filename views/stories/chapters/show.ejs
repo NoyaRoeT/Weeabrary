@@ -1,4 +1,29 @@
-<h1><%= story.title %></h1>
-<h2><%= chapter.title %></h2>
-<p><%= chapter.body %></p>
-<a href="/stories/<%= story.slug %>">Back</a>
+<div class="content-header">
+    <div class="content-wrapper chapter-header">
+        <h2 class="story-title"><%= story.title %></h2>
+        <div class="chapter-story-image">
+            <img src="<%= (story.image.url) ? story.image.url : '' %>" alt="cover image">
+        </div>
+        <h3 class="chapter-title"><%= chapter.title %></h3>
+        <div class="chapter-page-control">
+            <% if (chapter.chapterNum - 1 >= 0) { %>
+                <a class="btn-blue-bg chapter-page-control-btn" href="/stories/<%= story.slug %>/chapter/<%= chapter.chapterNum - 1 %>"><i class="fa-solid fa-arrow-left"></i></a>
+            <% } else { %>
+                <a class="btn-blue-bg chapter-page-control-btn inactive" href="#"><i class="fa-solid fa-arrow-left"></i></a>
+            <% } %> 
+
+            <a class="btn-blue-bg story-show-btn" href="/stories/<%= story.slug %>"><i class="fa-solid fa-table-list"></i></a>
+
+            <% if (chapter.chapterNum + 1 < story.chapters.length) { %>
+                <a class="btn-blue-bg chapter-page-control-btn" href="/stories/<%= story.slug %>/chapter/<%= chapter.chapterNum + 1 %>"><i class="fa-solid fa-arrow-right"></i></a>
+            <% } else { %>
+                <a class="btn-blue-bg chapter-page-control-btn inactive" href="#"><i class="fa-solid fa-arrow-right"></i></a>
+            <% } %> 
+        </div>
+    </div>
+</div>
+<div class="content-wrapper">
+    <div class="chapter-body">
+        <%= chapter.body %>
+    </div>
+</div>

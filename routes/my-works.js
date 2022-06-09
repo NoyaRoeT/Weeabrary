@@ -102,25 +102,25 @@ router.delete('/:slug', async (req, res) => {
     }
 })
 
-// delete cover image
-router.delete('/:slug/image', async (req, res) => {
-    let story;
-    try {
-        story = await Story.findOne({slug: req.params.slug});
-        if (!story) {
-            return res.redirect('/myworks');
-        }
-        await cloudinary.uploader.destroy(story.image.filename);
-        story.image = {};
-        await story.save();
-        return res.redirect(`/myworks/${story.slug}`);
-    } catch (e) {
-        if (!story) {
-            return res.redirect('/myworks');
-        }
-        return res.redirect(`/myworks/${story.slug}`);
-    }
-})
+// // delete cover image
+// router.delete('/:slug/image', async (req, res) => {
+//     let story;
+//     try {
+//         story = await Story.findOne({slug: req.params.slug});
+//         if (!story) {
+//             return res.redirect('/myworks');
+//         }
+//         await cloudinary.uploader.destroy(story.image.filename);
+//         story.image = {};
+//         await story.save();
+//         return res.redirect(`/myworks/${story.slug}`);
+//     } catch (e) {
+//         if (!story) {
+//             return res.redirect('/myworks');
+//         }
+//         return res.redirect(`/myworks/${story.slug}`);
+//     }
+// })
 
 // GET /myworks/:storyId/chapters/new route to create a new chapter
 router.get('/:slug/chapters/new', async (req, res) => {
