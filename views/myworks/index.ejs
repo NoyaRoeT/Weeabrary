@@ -7,7 +7,7 @@
 <% for (story of stories) { %>
     <div class="story-card">
         <div class="story-card-title text-center">
-            <a href="/stories/<%= story.slug %>"><%= story.title %></a>
+            <a href="/myworks/<%= story.slug %>"><%= story.title %></a>
         </div>
         <% if (story.image.url) { %>
             <div class="story-card-img">

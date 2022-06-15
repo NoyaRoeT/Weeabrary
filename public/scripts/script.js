@@ -26,3 +26,21 @@ for (let tabItem of tabItems) {
         document.querySelector(tabClass).classList.add('active');
     })
 }
+
+
+let editor = $('#body');
+if (editor.length) {
+    editor.trumbowyg({
+        btns: [
+            ['undo', 'redo'],
+            ['strong', 'em'],
+            ['superscript', 'subscript'],
+            ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+            ['unorderedList', 'orderedList'],
+            ['horizontalRule'],
+            ['fullscreen']
+        ],
+        semantic: false,
+        tagsToRemove: ['script', 'link']
+    });
+}

@@ -7,6 +7,7 @@ const app = express();
 const expressLayouts = require('express-ejs-layouts');
 const path = require('path')
 const methodOverride = require('method-override');
+const ExpressError = require('./utils/ExpressError');
 
 // Routers
 const indexRouter = require('./routes/index');
@@ -35,5 +36,18 @@ app.use(methodOverride('_method'));
 app.use('/', indexRouter);
 app.use('/stories', storiesRouter);
 app.use('/myworks', myWorksRouter);
+
+// 404 Route
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page does not exist!', 404));
+})
+
+app.use((err, req, res, next) => {
+    const {statusCode = 500} = err;
+    if (!err.message) {
+        err.message = "Oh no! Something went wrong!";
+    }
+    res.status(statusCode).render('error', {error: err});
+})
 
 app.listen(process.env.PORT || 3000);

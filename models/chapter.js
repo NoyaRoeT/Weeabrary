@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const createDomPurify = require('dompurify');
+const {JSDOM} = require('jsdom');
+const dompurify = createDomPurify(new JSDOM().window);
 
 const chapterSchema = new mongoose.Schema({
     title: {
@@ -16,5 +19,12 @@ const chapterSchema = new mongoose.Schema({
         ref: 'Story',
     }
 })
+
+chapterSchema.pre('validate', function(next) {
+    if (this.body) {
+        this.body = dompurify.sanitize(this.body);
+    }
+    next();
+});
 
 module.exports = mongoose.model('Chapter', chapterSchema);

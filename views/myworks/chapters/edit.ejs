@@ -1,5 +1,16 @@
-<h1>Edit Chapter: <%= chapter.title %></h1>
-<form action="/myworks/<%= story.slug %>/chapters/<%= chapter.num %>?_method=PUT" method="POST">
-    <%- include("_form_fields") %>
-    <button type="submit">Save</button>
-</form>
+<div class="content-header">
+    <div class="content-wrapper chapter-header">
+        <h2 class="story-title"><a href="/myworks/<%= story.slug %>"><%= story.title %></a></h2>
+        <div class="chapter-story-image">
+            <% if (story.image.url) { %> 
+                <img src= <%= story.thumbnail %> alt="cover image">
+            <% } %> 
+        </div>
+    </div>
+</div>
+<div class="content-wrapper">
+    <form class="myworks-chapter-form" action="/myworks/<%= story.slug %>/chapters/<%= chapter.num %>?_method=PUT" method="POST">
+        <%- include("_form_fields") %>
+        <button class="btn-blue-bg" type="submit">Save</button>
+    </form>
+</div>

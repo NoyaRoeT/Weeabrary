@@ -29,7 +29,12 @@
     <ul class="chapter-list">
     <% for (let i = 0; i != story.chapters.length; ++i) { %>
         <% const chapter = story.chapters[i]; %> 
-        <li class="chapter-list-item"> <a href="/myworks/<%= story.slug %>/chapters/<%= i %>"><%= chapter.title %></a></li>
+        <li class="chapter-list-item">
+            <a href="/myworks/<%= story.slug %>/chapters/<%= i %>"><%= chapter.title %></a>
+            <form action="/myworks/<%= story.slug %>/chapters/<%= i %>?_method=DELETE" method="POST">
+                <button class="btn-red-border" type="submit">Delete</button>
+            </form>
+        </li>
     <% } %> 
     </ul>
 </div>
