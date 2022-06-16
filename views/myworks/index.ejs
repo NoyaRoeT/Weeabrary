@@ -9,11 +9,9 @@
         <div class="story-card-title text-center">
             <a href="/myworks/<%= story.slug %>"><%= story.title %></a>
         </div>
-        <% if (story.image.url) { %>
-            <div class="story-card-img">
-                <img src="<%= story.thumbnail %>" alt="">
-            </div>
-        <% } %> 
+        <div class="story-card-img">
+            <img src= <%= (story.image.url) ? story.thumbnail : '/assets/default_cover.jpg' %> alt="cover image">
+        </div>
         <div class="story-card-body">
             <div class="story-card-myworks-btns">
                 <a href="/myworks/<%= story.slug %>/chapters/new" class="btn-blue-border">

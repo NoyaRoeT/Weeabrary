@@ -384,7 +384,7 @@ header {
 .chapter-body {
     margin-top: 2rem;
     padding: 0, 0.875rem;
-    font-size: 0.975rem;
+    font-size: 0.875rem;
     line-height: 1.66;
 }
 
@@ -400,27 +400,56 @@ header {
     font-size: 0.875rem;
 }
 
+.myworks-chapter-form .myworks-chapter-form-field textarea {
+    font-size: 0.875rem;
+}
+
 /* Error page */
 .error-container {
-    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--clr-body-light-bg);
     width: 100%;
-    padding: 20rem 0rem;
 }
 
 .error-container .error-box {
-    background-color: white;
-    border: 1px solid var(--clr-light-story-button);
+    background-color: rgb(241, 129, 129);
+    border: 1px solid red;
     border-radius: 0.5em;
     max-width: 1120px;
+    min-height: 300px;
     padding: 1em;
+    margin-top: 5rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: 400;
-    font-size: 0.975rem;
+}
+
+.error-container .error-box .error-heading {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.error-container .error-box .error-trace {
+    font-size: 0.875rem;
+}
+
+/* Review form */
+.review-form {
+    border-top: 1px solid var(--clr-chapter-border);
+    margin-top: 2rem;
+    padding-top: 1rem;
+}
+
+.review-form .review-form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.925rem;
+}
+
+.review-form .review-form-control {
+    font-family: inherit;
+    padding: 0.5em;
+    font-size: 0.875rem;
 }
 
 /* Utilities */
@@ -428,6 +457,7 @@ header {
     margin: auto;
     max-width: 1120px;
     padding: 0 0.9375rem;
+    margin-bottom: 1rem;
 }
 
 .btn-blue-border {
@@ -444,8 +474,9 @@ header {
 
 .btn-blue-bg {
     background-color: var(--clr-light-story-button);
-    padding: 0.15em 0.4em;
+    padding: 0.3em 0.6em;
     color: var(--clr-dark-text-primary);
+    border: none;
 }
 
 .text-center {

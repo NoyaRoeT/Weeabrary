@@ -1,5 +1,8 @@
 <div class="error-container">
     <div class="error-box">
-        <%= error.message %>
+        <h2 class="error-heading"><%= error.message %></h2>
+        <p class="error-trace">
+            <%= error.stack %>
+        </p>
     </div>
 </div>

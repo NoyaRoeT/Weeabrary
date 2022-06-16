@@ -2,7 +2,7 @@
     <div class="content-wrapper chapter-header">
         <h2 class="story-title"><%= story.title %></h2>
         <div class="chapter-story-image">
-            <img src="<%= (story.image.url) ? story.image.url : '' %>" alt="cover image">
+            <img src= <%= (story.image.url) ? story.thumbnail : '/assets/default_cover.jpg' %> alt="cover image">
         </div>
         <h3 class="chapter-title"><%= chapter.title %></h3>
         <div class="chapter-page-control">

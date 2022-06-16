@@ -10,11 +10,9 @@
                 <a href="/stories/<%= story.slug %>"><%= story.title %></a>
             </div>
 
-            <% if (story.image.url) { %>
-                <div class="story-card-img">
-                    <img src=<%= story.thumbnail %> alt="cover image">
-                </div>
-            <% } %>
+            <div class="story-card-img">
+                <img src= <%= (story.image.url) ? story.thumbnail : '/assets/default_cover.jpg' %> alt="cover image">
+            </div>
 
             <div class="story-card-body">
                 <p class="story-card-body-desc">

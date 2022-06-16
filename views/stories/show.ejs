@@ -10,7 +10,7 @@
         <h2><%= story.title %></h2>
     </div>
     <div class="story-image">
-        <img src="<%= (story.image.url) ? story.image.url : '' %>" alt="cover image">
+        <img src= <%= (story.image.url) ? story.thumbnail : '/assets/default_cover.jpg' %> alt="cover image">
     </div>
     <p class="story-desc">
         <%= story.synopsis %>
@@ -21,11 +21,16 @@
             <% for (let i = 0; i != story.chapters.length; ++i) { %>
                 <% const chapter = story.chapters[i]; %>
                 <li class="chapter-list-item">
-                    <a href="/stories/<%= story.slug %>/chapter/<%= i %>">
+                    <a href="/stories/<%= story.slug %>/chapters/<%= i %>">
                         <%= chapter.title %>
                     </a>
                 </li>    
             <% } %> 
         </ul>
     </div>
+
+    <form action="/stories/<%= story.slug %>/reviews" method="POST" class="review-form">
+        <%- include('./reviews/_form_fields') %>
+        <button class="btn-blue-bg" type="submit">Create</button>
+    </form>
 </div>

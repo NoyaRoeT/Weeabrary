@@ -1,8 +1,7 @@
 module.exports = fn => {
     return (req, res, next) => {
-        fn(req, res, next).catch(e => {
-            console.log(e);
-            next(e);
+        return fn(req, res, next).catch(e => {
+            return next(e);
         })
     };
 }
