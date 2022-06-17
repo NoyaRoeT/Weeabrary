@@ -16,7 +16,8 @@ router.get('/', catchAsync(async (req, res) => {
 router.get('/:slug', catchAsync(async (req, res) => {
     const story = await Story.findOne({slug: req.params.slug}).populate('chapters', 'title');
     if (!story) throw new ExpressError('Could not find this story!', 404);
-    res.render('stories/show', {story: story});
+    const reviews = await Review.find({owningStory: story._id});
+    res.render('stories/show', {story: story, reviews: reviews});
 }))
 
 /* Chapter */
@@ -51,6 +52,11 @@ router.post('/:slug/reviews', validateReview, catchAsync(async (req, res) => {
     story.rating.score = (review.rating + story.rating.num * story.rating.score) / (++story.rating.num);
     await story.save();
     res.redirect(`/stories/${story.slug}`);
+}))
+
+router.delete('/:slug/reviews/:reviewId', catchAsync(async (req, res) => {
+    await Review.deleteOne({id: req.params.reviewId});
+    res.redirect(`/stories/${req.params.slug}`);
 }))
 
 module.exports = router;

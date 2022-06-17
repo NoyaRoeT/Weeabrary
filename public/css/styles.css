@@ -13,7 +13,7 @@
 
     --clr-light-story-title: #1b98e0;
     --clr-light-story-button: #02609d;
-    --clr-light-story-delete: red;
+    --clr-light-story-delete: #a61f1c;
 
     --clr-chapter-border: #e0dada;
     --clr-body-light-bg: #f2f2f2;
@@ -301,7 +301,6 @@ header {
 
 .story-image {
     margin-top: 0.875rem;
-    border-bottom: 1px solid var(--clr-chapter-border);
     padding-bottom: 0.875rem;
 }
 
@@ -313,7 +312,25 @@ header {
     height: 284px;
 }
 
+.story-data {
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.story-data .story-data-item {
+    font-size: 0.975rem;
+}
+
+.story-data .story-data-item .story-data-review-num {
+    font-size: 0.8rem;
+    color: var(--clr-light-story-title);
+}
+
+
 .story-desc {
+    border-top: 1px solid var(--clr-chapter-border);
     padding: 0.5em;
     font-size: 0.875rem;
 }
@@ -438,6 +455,18 @@ header {
     border-top: 1px solid var(--clr-chapter-border);
     margin-top: 2rem;
     padding-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.review-form .review-form-heading {
+    display: inline-block;
+    margin-bottom: 0.925rem;
+    background-color: var(--clr-body-light-bg);
+    border: 1px solid var(--clr-chapter-border);
+    border-radius: 0.5em;
+    padding: 0.3em 0.6em;
+    font-size: 0.975rem;
+    font-weight: 400;
 }
 
 .review-form .review-form-field {
@@ -450,6 +479,25 @@ header {
     font-family: inherit;
     padding: 0.5em;
     font-size: 0.875rem;
+}
+
+/* Reviews */
+.review {
+    border-top: 1px solid var(--clr-chapter-border);
+    padding: 0.4em;
+    font-size: 0.875rem;
+}
+.review .review-score {
+    font-size: 0.975rem;
+    margin-bottom: 0.4em;
+    border-bottom: 2px solid var(--clr-light-story-button);
+    display: inline-block;
+    font-weight: 400;
+}
+
+.review .review-body {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
 }
 
 /* Utilities */
@@ -474,6 +522,13 @@ header {
 
 .btn-blue-bg {
     background-color: var(--clr-light-story-button);
+    padding: 0.3em 0.6em;
+    color: var(--clr-dark-text-primary);
+    border: none;
+}
+
+.btn-red-bg {
+    background-color: var(--clr-light-story-delete);
     padding: 0.3em 0.6em;
     color: var(--clr-dark-text-primary);
     border: none;
