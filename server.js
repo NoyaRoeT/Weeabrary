@@ -8,6 +8,8 @@ const expressLayouts = require('express-ejs-layouts');
 const path = require('path')
 const methodOverride = require('method-override');
 const ExpressError = require('./utils/ExpressError');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 // Routers
 const indexRouter = require('./routes/index');
@@ -33,6 +35,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({limit: '10mb', extended: false}));
 app.use(methodOverride('_method'));
 
+// Session config and use
+const sessionConfig = {
+    secret: 'thisshouldbeabettersecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24,
+        maxAge: 1000 * 60 * 60 * 24
+    }
+};
+app.use(session(sessionConfig));
+app.use(flash());
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
+
+// Use routers
 app.use('/', indexRouter);
 app.use('/stories', storiesRouter);
 app.use('/myworks', myWorksRouter);

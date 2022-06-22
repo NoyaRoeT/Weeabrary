@@ -8,7 +8,6 @@ navButton.addEventListener('click', () => {
 let tabItems = document.querySelectorAll('.myworks-tabs .tab-list .tab-item');
 let tabPages = document.querySelectorAll('.myworks-tabs-page');
 
-
 for (let tabItem of tabItems) {
     tabItem.addEventListener('click', () => {
         if (tabItem.classList.contains('active')) {
@@ -27,7 +26,6 @@ for (let tabItem of tabItems) {
     })
 }
 
-
 let editor = $('#body');
 if (editor.length) {
     editor.trumbowyg({
@@ -44,3 +42,8 @@ if (editor.length) {
         tagsToRemove: ['script', 'link']
     });
 }
+
+const flashCloseBtn = document.querySelector('.alert .close-btn');
+flashCloseBtn.addEventListener('click', function() {
+    this.parentElement.style.display = 'none';
+})

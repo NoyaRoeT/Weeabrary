@@ -41,19 +41,6 @@ const storySchema = new mongoose.Schema({
         url: String,
         filename: String,
     },
-    rating: {
-        num: {
-            type: Number,
-            min: 0,
-            default: 0,
-        },
-        score: {
-            type: Number,
-            min: 0,
-            max: 5,
-            default: 0,
-        }
-    }
 })
 
 storySchema.pre('save', function(next) {

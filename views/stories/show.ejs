@@ -13,7 +13,9 @@
         <img src= <%= (story.image.url) ? story.thumbnail : '/assets/default_cover.jpg' %> alt="cover image">
     </div>
     <div class="story-data">
-        <p class="story-data-item">Rating: <%= story.rating.score.toFixed(1) %> <span class="story-data-review-num">(<%= story.rating.num %> ratings)</span></p>
+        <% const sumRating = reviews.reduce((prev, curr) => prev + curr.rating, 0); %>
+        <% const storyRating = (reviews.length) ? (sumRating / reviews.length).toFixed(1) : 0%> 
+        <p class="story-data-item">Rating: <%= storyRating %> <span class="story-data-review-num">(<%= reviews.length %> ratings)</span></p>
     </div>
     <p class="story-desc">
         <%= story.synopsis %>
@@ -46,7 +48,8 @@
             <p class="review-body">
                 <%= review.review %>
             </p>
-            <form action="/stories/<%=story.slug%>/reviews/<%=review.id%>?_method=DELETE" method="POST">
+    
+            <form action="/stories/<%=story.slug%>/reviews/<%=review.id + "1rwerwe"%>?_method=DELETE" method="POST">
                 <button class="btn-red-bg" type="submit">Delete</button>
             </form>
         </div>

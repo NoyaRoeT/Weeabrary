@@ -49,6 +49,7 @@ router.post('/', upload.single('image'), validateStory, catchAsync(async (req, r
         newStory.image = {url: req.file.path, filename: req.file.filename};
     }
     await newStory.save();
+    req.flash('success', 'Successfully created a new story!');
     res.redirect(`/myworks/${newStory.slug}`);
     
 }), catchAsyncError(async (err, req, res, next) => {
@@ -64,6 +65,7 @@ router.put('/:slug', upload.single('image'), validateStory, catchAsync(async (re
     story.synopsis = req.body.synopsis;
     if (!req.file) {
         await story.save();
+        req.flash('success', 'Succesfully edited your story!');
         return res.redirect(`/myworks/${story.slug}`);
     }
     const oldFileName = story.image.filename;
@@ -72,6 +74,7 @@ router.put('/:slug', upload.single('image'), validateStory, catchAsync(async (re
     if (oldFileName) {
         await cloudinary.uploader.destroy(oldFileName); // If no such file, then nth happens
     }
+    req.flash('success', 'Succesfully edited your story!');
     res.redirect(`/myworks/${story.slug}`);
     // In terms of code, error will only be thrown at .save() (e.g. fail mongoose validation)
     // In that case, the story obj is unchanged hence only need to delete new uploaded img.
@@ -89,6 +92,7 @@ router.delete('/:slug', catchAsync(async (req, res) => {
         await cloudinary.uploader.destroy(story.image.filename);
     }
     await story.deleteOne();
+    req.flash('success', 'Succesfully deleted your story!');
     res.redirect('/myworks');
 }))
 
@@ -152,6 +156,7 @@ router.post('/:slug/chapters', validateChapter, catchAsync(async (req, res) => {
     await newChapter.save();
     story.chapters.push(newChapter._id);
     await story.save()
+    req.flash('success', 'Succesfully added a chapter!');
     res.redirect(`/myworks/${story.slug}`);
 }))
 
@@ -164,6 +169,7 @@ router.put('/:slug/chapters/:chNum', validateChapter, catchAsync(async (req, res
     chapter.title = req.body.title;
     chapter.body = req.body.body;
     await chapter.save();
+    req.flash('success', 'Succesfully edited a chapter!');
     res.redirect(`/myworks/${story.slug}/chapters/${req.params.chNum}`);
 }))
 
@@ -178,6 +184,7 @@ router.delete('/:slug/chapters/:chNum', catchAsync(async (req, res) => {
     story.chapters.splice(req.params.chNum, 1);
     await Chapter.deleteOne({_id: chId});
     await story.save();
+    req.flash('success', 'Succesfully deleted a chapter!');
     res.redirect(`/myworks/${story.slug}`);
 }))
 

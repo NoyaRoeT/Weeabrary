@@ -49,7 +49,6 @@ router.post('/:slug/reviews', validateReview, catchAsync(async (req, res) => {
         owningStory: story.id,
     });
     await review.save();
-    story.rating.score = (review.rating + story.rating.num * story.rating.score) / (++story.rating.num);
     await story.save();
     res.redirect(`/stories/${story.slug}`);
 }))
