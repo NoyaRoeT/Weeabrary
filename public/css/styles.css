@@ -21,6 +21,7 @@
 
 body {
     font-family: 'Open Sans', sans-serif;
+    background-color: var(--clr-body-light-bg);
 }
 
 img {
@@ -113,6 +114,19 @@ header {
     display: block;
 }
 
+.content-wrapper {
+    margin: auto;
+    max-width: 1120px;
+    padding: 0 0.9375rem;
+    margin-bottom: 1rem;
+}
+
+.content-body {
+    background-color: white;
+    padding: 0.4rem 0.9375rem;
+    border: 1px solid var(--clr-chapter-border);
+}
+
 .content-header {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
@@ -196,7 +210,7 @@ header {
 
 /* My Works story edit tabs*/
 .myworks-tabs {
-    margin-bottom: 10rem;
+    margin-bottom: 1rem;
 }
 .myworks-tabs .tab-list {
    list-style:  none;
@@ -399,12 +413,15 @@ header {
 
 .chapter-body {
     margin-top: 2rem;
-    padding: 0, 0.875rem;
+    margin-bottom: 2rem;
     font-size: 0.875rem;
     line-height: 1.66;
 }
 
 /* My Works / Add or edit chapter */
+.myworks-chapter-form {
+    margin-bottom: 1rem;
+}
 .myworks-chapter-form .myworks-chapter-form-field {
     display: flex;
     flex-direction: column;
@@ -536,14 +553,37 @@ header {
     cursor: pointer;
 }
 
-/* Utilities */
-.content-wrapper {
-    margin: auto;
-    max-width: 1120px;
-    padding: 0 0.9375rem;
-    margin-bottom: 1rem;
+/* auth form */
+.auth-wrapper {
+    background-color: var(--clr-body-light-bg);
 }
 
+.auth-form {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.auth-form .auth-form-field {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.auth-form .auth-form-field label {
+    margin-bottom: 0.4rem;
+}
+
+.auth-form .auth-form-field input {
+    padding: 0.4em;
+}
+
+.auth-form button {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Utilities */
 .btn-blue-border {
     display: inline-block;
     border: 1px solid var(--clr-light-story-title);

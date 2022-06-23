@@ -10,11 +10,14 @@ const methodOverride = require('method-override');
 const ExpressError = require('./utils/ExpressError');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
 
 // Routers
 const indexRouter = require('./routes/index');
 const storiesRouter = require('./routes/stories');
 const myWorksRouter = require('./routes/my-works');
+const authRouter = require('./routes/auth');
 
 // Connecting to MongoDb
 const mongoose = require('mongoose');
@@ -35,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({limit: '10mb', extended: false}));
 app.use(methodOverride('_method'));
 
-// Session config and use
+// Session config and use, flash
 const sessionConfig = {
     secret: 'thisshouldbeabettersecret',
     resave: false,
@@ -54,8 +57,18 @@ app.use((req, res, next) => {
     next();
 })
 
+// Passport
+app.use(passport.initialize());
+app.use(passport.session()); // Middleware that uses serialize and deserialize to store and retrieve user data.
+
+const User = require('./models/user');
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser()); // Saves user inside the express-session
+passport.deserializeUser(User.deserializeUser()); // Retreives user data from session and perform condition-based operations.
+
 // Use routers
 app.use('/', indexRouter);
+app.use('/auth', authRouter);
 app.use('/stories', storiesRouter);
 app.use('/myworks', myWorksRouter);
 

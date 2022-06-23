@@ -4,14 +4,15 @@
         <a href="/myworks">Back</a>
     </div>
 </div>
-<div class="myworks-tabs content-wrapper">
+<div class="content-body content-wrapper">
+<div class="myworks-tabs">
     <ul class="tab-list">
         <li class="tab-item active" id="story-details"><a>Details</a></li>
         <li class="tab-item" id="story-glossary"><a>Glossary</a></li>
     </ul>
 </div>
 
-<div class="content-wrapper myworks-story-details myworks-tabs-page active">
+<div class="myworks-story-details myworks-tabs-page active">
     <div class="myworks-story-title">
         <h2><%= story.title %></h2>
     </div>
@@ -22,7 +23,7 @@
 </div>
 
 
-<div class="content-wrapper myworks-story-glossary myworks-tabs-page">
+<div class="myworks-story-glossary myworks-tabs-page">
     <div class="chapter-list-header">
         <a href="/myworks/<%= story.slug %>/chapters/new" class="btn-blue-bg"><i class="fa-solid fa-plus"></i>  Add Chapter</a>
     </div>
@@ -37,4 +38,5 @@
         </li>
     <% } %> 
     </ul>
+</div>
 </div>
