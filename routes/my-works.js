@@ -8,9 +8,7 @@ const upload = multer({storage});
 const catchAsync = require('../utils/catchAsync');
 const catchAsyncError = require('../utils/catchAsyncError');
 const ExpressError = require('../utils/ExpressError');
-const Joi = require('joi');
 const {storySchema, chapterSchema} = require('../schemas');
-const { validate } = require('../models/story');
 
 // list all novels created
 router.get('/', catchAsync(async (req, res) => {

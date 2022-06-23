@@ -1,6 +1,6 @@
 <div class="content-header">
     <div class="content-wrapper chapter-header">
-        <h2 class="story-title"><%= story.title %></h2>
+        <h2 class="story-title"><a href="/myworks/<%= story.slug %>"><%= story.title %></a></h2>
         <div class="chapter-story-image">
             <img src= <%= (story.image.url) ? story.thumbnail : '/assets/default_cover.jpg' %> alt="cover image">
         </div>

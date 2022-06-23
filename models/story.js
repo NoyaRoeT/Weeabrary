@@ -8,12 +8,12 @@ const storySchema = new mongoose.Schema({
     title: {
         type: String,
         maxlength: 50,
-        required: true,
+        required: [true, 'Story title cannot be blank.'],
     },
     synopsis: {
         type: String,
         maxlength: 250,
-        required: true,
+        required: [true, 'Story synopsis cannot be blank.'],
     },
     chapters: {
         type: [Number],

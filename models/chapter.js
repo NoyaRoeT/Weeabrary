@@ -6,12 +6,12 @@ const dompurify = createDomPurify(new JSDOM().window);
 const chapterSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true,
+        required: [true, 'Chapter title cannot be blank.'],
         maxLength: 50,
     },
     body: {
         type: String,
-        required: true,
+        required: [true, 'Chapter body cannot be blank.'],
         maxLength: 10000,
     },
     owningStory: {

@@ -50,11 +50,13 @@ router.post('/:slug/reviews', validateReview, catchAsync(async (req, res) => {
     });
     await review.save();
     await story.save();
+    req.flash('success', 'Successfully posted a review!');
     res.redirect(`/stories/${story.slug}`);
 }))
 
 router.delete('/:slug/reviews/:reviewId', catchAsync(async (req, res) => {
     await Review.deleteOne({id: req.params.reviewId});
+    req.flash('success', 'Successfully deleted a review!');
     res.redirect(`/stories/${req.params.slug}`);
 }))
 
