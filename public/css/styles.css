@@ -128,8 +128,8 @@ header {
 }
 
 .content-header {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
     width: 100%;
     background-color: var(--clr-body-light-bg);
 }
@@ -452,7 +452,7 @@ header {
     max-width: 1120px;
     min-height: 300px;
     padding: 1em;
-    margin-top: 5rem;
+    margin-top: 3rem;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -554,13 +554,9 @@ header {
 }
 
 /* auth form */
-.auth-wrapper {
-    background-color: var(--clr-body-light-bg);
-}
-
 .auth-form {
-    margin-top: 2.5rem;
-    margin-bottom: 2.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .auth-form .auth-form-field {
