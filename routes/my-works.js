@@ -8,11 +8,13 @@ const upload = multer({storage});
 const catchAsync = require('../utils/catchAsync');
 const catchAsyncError = require('../utils/catchAsyncError');
 const ExpressError = require('../utils/ExpressError');
-const {storySchema, chapterSchema} = require('../schemas');
+const {isLoggedIn, validateChapter, validateStory, isAuthor} = require('./middleware');
+
+router.use(isLoggedIn);
 
 // list all novels created
 router.get('/', catchAsync(async (req, res) => {
-    const stories = await Story.find({});
+    const stories = await Story.find({author: req.user._id});
     res.render('myworks/index', {stories});
 }))
 
@@ -21,32 +23,20 @@ router.get('/new', (req, res) => {
     res.render('myworks/new', {story: new Story()});
 })
 
-// get the form to edit a story
-router.get('/:slug', catchAsync(async (req, res) => {
-    const story = await Story.findOne({slug: req.params.slug}).populate('chapters', 'title');
-    if (!story) throw new ExpressError('Could not find this work!', 404);
-    res.render('myworks/edit', {story});
-}))
-
-const validateStory = (req, res, next) => {
-    const { error } = storySchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    }
-    return next();
-}
-
 // save a new novel
 router.post('/', upload.single('image'), validateStory, catchAsync(async (req, res) => {
+    const author = req.user;
     const newStory = new Story({
         title: req.body.title,
         synopsis: req.body.synopsis,
+        author: author._id,
     });
     if (req.file) {
         newStory.image = {url: req.file.path, filename: req.file.filename};
     }
     await newStory.save();
+    author.works.push(newStory._id);
+    await author.save();
     req.flash('success', 'Successfully created a new story!');
     res.redirect(`/myworks/${newStory.slug}`);
     
@@ -55,8 +45,15 @@ router.post('/', upload.single('image'), validateStory, catchAsync(async (req, r
     next(err);
 })) // Need a special error handler to delete uploaded files
 
+// get the form to edit a story
+router.get('/:slug', catchAsync(isAuthor), catchAsync(async (req, res) => {
+    const story = await Story.findOne({slug: req.params.slug}).populate('chapters', 'title');
+    if (!story) throw new ExpressError('Could not find this work!', 404);
+    res.render('myworks/edit', {story});
+}))
+
 // edit a story
-router.put('/:slug', upload.single('image'), validateStory, catchAsync(async (req, res) => {
+router.put('/:slug', catchAsync(isAuthor), upload.single('image'), validateStory, catchAsync(async (req, res) => {
     const story = await Story.findOne({slug: req.params.slug});
     if (!story) throw new ExpressError('Could not find this work!', 404);
     story.title = req.body.title;
@@ -82,13 +79,10 @@ router.put('/:slug', upload.single('image'), validateStory, catchAsync(async (re
 })) // Need a special error handler to delete uploaded files
 
 // delete a story
-router.delete('/:slug', catchAsync(async (req, res) => {
+router.delete('/:slug', catchAsync(isAuthor), catchAsync(async (req, res) => {
 
     const story = await Story.findOne({slug: req.params.slug});
     if (!story) throw new ExpressError('Could not find this work!', 404);
-    if (story.image.filename) {
-        await cloudinary.uploader.destroy(story.image.filename);
-    }
     await story.deleteOne();
     req.flash('success', 'Succesfully deleted your story!');
     res.redirect('/myworks');
@@ -115,14 +109,14 @@ router.delete('/:slug', catchAsync(async (req, res) => {
 // })
 
 // GET /myworks/:storyId/chapters/new route to create a new chapter
-router.get('/:slug/chapters/new', catchAsync(async (req, res) => {
+router.get('/:slug/chapters/new', catchAsync(isAuthor), catchAsync(async (req, res) => {
     const story = await Story.findOne({slug: req.params.slug});
     if (!story) throw new ExpressError('Could not find this work!', 404);
     res.render('myworks/chapters/new', {story: story, chapter: new Chapter()});
 }))
 
 // GET /myworks/:storyId/chapters/:chNum/edit to edit a particular chapter
-router.get('/:slug/chapters/:chNum', catchAsync(async (req, res) => {
+router.get('/:slug/chapters/:chNum', catchAsync(isAuthor), catchAsync(async (req, res) => {
     const story = await Story.findOne({slug: req.params.slug})
     if (!story) throw new ExpressError('Could not find this work!', 404);
     const chapterId = story.chapters[req.params.chNum];
@@ -133,17 +127,8 @@ router.get('/:slug/chapters/:chNum', catchAsync(async (req, res) => {
 
 }));
 
-const validateChapter = (req, res, next) => {
-    const { error } = chapterSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    }
-    return next();
-}
-
 // POST /myworks/:storyID/chapter route to save new chapter
-router.post('/:slug/chapters', validateChapter, catchAsync(async (req, res) => {
+router.post('/:slug/chapters', catchAsync(isAuthor), validateChapter, catchAsync(async (req, res) => {
     const story = await Story.findOne({slug: req.params.slug});
     if (!story) throw new ExpressError('Could not find this work!', 404);
     const newChapter = new Chapter({
@@ -159,7 +144,7 @@ router.post('/:slug/chapters', validateChapter, catchAsync(async (req, res) => {
 }))
 
 // Save chapter update route
-router.put('/:slug/chapters/:chNum', validateChapter, catchAsync(async (req, res) => {
+router.put('/:slug/chapters/:chNum', catchAsync(isAuthor), validateChapter, catchAsync(async (req, res) => {
     const story = await Story.findOne({slug: req.params.slug});
     if (!story) throw new ExpressError('Could not find this work!', 404);
     const chapter = await Chapter.findById(story.chapters[req.params.chNum]);
@@ -172,7 +157,7 @@ router.put('/:slug/chapters/:chNum', validateChapter, catchAsync(async (req, res
 }))
 
 // Delete chapter route
-router.delete('/:slug/chapters/:chNum', catchAsync(async (req, res) => {
+router.delete('/:slug/chapters/:chNum', catchAsync(isAuthor), catchAsync(async (req, res) => {
     const story = await Story.findOne({slug: req.params.slug});
     if (!story) throw new ExpressError('Could not find this work!', 404);
     if (req.params.chNum < 0 || req.params.chNum >= story.chapters.length) {

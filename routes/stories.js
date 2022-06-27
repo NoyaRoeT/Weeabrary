@@ -5,7 +5,7 @@ const Chapter = require('../models/chapter');
 const Review = require('../models/review');
 const ExpressError = require('../utils/ExpressError');
 const catchAsync = require('../utils/catchAsync');
-const {reviewSchema} = require('../schemas');
+const {validateReview, isLoggedIn} = require('./middleware');
 
 /* Story */
 router.get('/', catchAsync(async (req, res) => {
@@ -14,9 +14,9 @@ router.get('/', catchAsync(async (req, res) => {
 }));
 
 router.get('/:slug', catchAsync(async (req, res) => {
-    const story = await Story.findOne({slug: req.params.slug}).populate('chapters', 'title');
+    const story = await Story.findOne({slug: req.params.slug}).populate('chapters', 'title').populate('author', 'username');
     if (!story) throw new ExpressError('Could not find this story!', 404);
-    const reviews = await Review.find({owningStory: story._id});
+    const reviews = await Review.find({owningStory: story._id}).populate('author', 'username');
     res.render('stories/show', {story: story, reviews: reviews});
 }))
 
@@ -30,16 +30,8 @@ router.get('/:slug/chapters/:chapterNum', catchAsync(async (req, res) => {
     res.render('stories/chapters/show', {story: story, chapter: chapter});
 }))
 
+router.use(isLoggedIn);
 /* Review */
-const validateReview = function (req, res, next) {
-    const { error } = reviewSchema.validate(req. body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',');
-        throw new ExpressError(msg, 400);
-    }
-    return next();
-}
-
 router.post('/:slug/reviews', validateReview, catchAsync(async (req, res) => {
     const story = await Story.findOne({slug: req.params.slug});
     if (!story) throw new ExpressError('Could not find this story!', 404);
@@ -47,6 +39,7 @@ router.post('/:slug/reviews', validateReview, catchAsync(async (req, res) => {
         review: req.body.review,
         rating: req.body.rating,
         owningStory: story.id,
+        author: req.user._id
     });
     await review.save();
     await story.save();

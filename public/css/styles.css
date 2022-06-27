@@ -334,6 +334,7 @@ header {
 
 .story-data .story-data-item {
     font-size: 0.975rem;
+    margin-bottom: 0.2rem;
 }
 
 .story-data .story-data-item .story-data-review-num {

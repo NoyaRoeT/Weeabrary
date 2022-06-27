@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 module.exports.storySchema = Joi.object({
     title: Joi.string().required().max(50),
-    synopsis: Joi.string().required().max(250),
+    synopsis: Joi.string().required().max(700),
 });
 
 module.exports.chapterSchema = Joi.object({

@@ -51,11 +51,6 @@ const sessionConfig = {
 };
 app.use(session(sessionConfig));
 app.use(flash());
-app.use((req, res, next) => {
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    next();
-})
 
 // Passport
 app.use(passport.initialize());
@@ -65,6 +60,13 @@ const User = require('./models/user');
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser()); // Saves user inside the express-session
 passport.deserializeUser(User.deserializeUser()); // Retreives user data from session and perform condition-based operations.
+
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
 
 // Use routers
 app.use('/', indexRouter);

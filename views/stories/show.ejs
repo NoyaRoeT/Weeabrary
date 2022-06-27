@@ -16,6 +16,7 @@
         <% const sumRating = reviews.reduce((prev, curr) => prev + curr.rating, 0); %>
         <% const storyRating = (reviews.length) ? (sumRating / reviews.length).toFixed(1) : 0%> 
         <p class="story-data-item">Rating: <%= storyRating %> <span class="story-data-review-num">(<%= reviews.length %> ratings)</span></p>
+        <p class="story-data-item">Author: <%= story.author.username %></p>
     </div>
     <p class="story-desc">
         <%= story.synopsis %>
@@ -44,6 +45,7 @@
 
     <% for (const review of reviews) { %> 
         <div class="review">
+            <h4><%= review.author.username %></h4>
             <h4 class="review-score">Rating: <%= review.rating %></h4>
             <p class="review-body">
                 <%= review.review %>
