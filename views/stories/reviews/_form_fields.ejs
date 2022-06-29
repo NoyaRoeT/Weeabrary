@@ -1,8 +1,9 @@
 <div class="review-form-field">
     <label for="rating" class="review-form-label">Rating</label>
-    <input type="range" min="1" max="5" name="rating" id="rating" required>
+    <input type="range" min="1" max="5" name="rating" id="rating" value="<%=review.rating%>" required>
 </div>
+
 <div class="review-form-field">
     <label class="review-form-label" for="review">Review</label>
-    <textarea class="review-form-control" name="review" id="review" cols="30" rows="3" required></textarea>
+    <textarea class="review-form-control" name="review" id="review" cols="30" rows="3" required><%=review.review%></textarea>
 </div>

@@ -1,56 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const Story = require('../models/story');
-const Chapter = require('../models/chapter');
-const Review = require('../models/review');
-const ExpressError = require('../utils/ExpressError');
 const catchAsync = require('../utils/catchAsync');
-const {validateReview, isLoggedIn} = require('./middleware');
+const {validateReview, isLoggedIn, isReviewAuthor, userHasReview, setReturnTo} = require('../controllers/middleware');
+const {stories, reviews} = require('../controllers/stories');
+
+router.use(setReturnTo);
 
 /* Story */
-router.get('/', catchAsync(async (req, res) => {
-    const stories = await Story.find({});
-    res.render('stories/index', {stories: stories});
-}));
+router.get('/', stories.index);
 
-router.get('/:slug', catchAsync(async (req, res) => {
-    const story = await Story.findOne({slug: req.params.slug}).populate('chapters', 'title').populate('author', 'username');
-    if (!story) throw new ExpressError('Could not find this story!', 404);
-    const reviews = await Review.find({owningStory: story._id}).populate('author', 'username');
-    res.render('stories/show', {story: story, reviews: reviews});
-}))
+router.get('/:slug', catchAsync(userHasReview), stories.show);
 
 /* Chapter */
-router.get('/:slug/chapters/:chapterNum', catchAsync(async (req, res) => {
-    const story = await Story.findOne({slug: req.params.slug});
-    if (!story) throw new ExpressError('Could not find this story!', 404);
-    const chapter = await Chapter.findById(story.chapters[req.params.chapterNum]);
-    if (!chapter) throw new ExpressError('Could not find this chapter!', 404);
-    chapter.chapterNum = parseInt(req.params.chapterNum);
-    res.render('stories/chapters/show', {story: story, chapter: chapter});
-}))
+router.get('/:slug/chapters/:chapterNum', stories.showChapter);
 
-router.use(isLoggedIn);
 /* Review */
-router.post('/:slug/reviews', validateReview, catchAsync(async (req, res) => {
-    const story = await Story.findOne({slug: req.params.slug});
-    if (!story) throw new ExpressError('Could not find this story!', 404);
-    const review = new Review({
-        review: req.body.review,
-        rating: req.body.rating,
-        owningStory: story.id,
-        author: req.user._id
-    });
-    await review.save();
-    await story.save();
-    req.flash('success', 'Successfully posted a review!');
-    res.redirect(`/stories/${story.slug}`);
-}))
+router.use(isLoggedIn);
 
-router.delete('/:slug/reviews/:reviewId', catchAsync(async (req, res) => {
-    await Review.deleteOne({id: req.params.reviewId});
-    req.flash('success', 'Successfully deleted a review!');
-    res.redirect(`/stories/${req.params.slug}`);
-}))
+router.post('/:slug/reviews', catchAsync(userHasReview), validateReview, reviews.new)
+
+router.put('/:slug/reviews/:reviewId', catchAsync(isReviewAuthor), validateReview, reviews.edit)
+
+router.delete('/:slug/reviews/:reviewId', catchAsync(isReviewAuthor), reviews.delete)
 
 module.exports = router;

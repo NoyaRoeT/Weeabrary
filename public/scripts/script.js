@@ -44,6 +44,8 @@ if (editor.length) {
 }
 
 const flashCloseBtn = document.querySelector('.alert .close-btn');
-flashCloseBtn.addEventListener('click', function() {
-    this.parentElement.style.display = 'none';
-})
+if (flashCloseBtn) {
+    flashCloseBtn.addEventListener('click', function() {
+        this.parentElement.style.display = 'none';
+    })
+}

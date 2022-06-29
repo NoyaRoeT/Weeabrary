@@ -351,6 +351,7 @@ header {
 
 .story-chapter-list {
     margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .story-chapter-list h3 {
@@ -470,12 +471,11 @@ header {
 /* Review form */
 .review-form {
     border-top: 1px solid var(--clr-chapter-border);
-    margin-top: 2rem;
     padding-top: 1rem;
     margin-bottom: 2rem;
 }
 
-.review-form .review-form-heading {
+.review-form-heading {
     display: inline-block;
     margin-bottom: 0.925rem;
     background-color: var(--clr-body-light-bg);
@@ -486,13 +486,13 @@ header {
     font-weight: 400;
 }
 
-.review-form .review-form-field {
+.review-form-field {
     display: flex;
     flex-direction: column;
     margin-bottom: 0.925rem;
 }
 
-.review-form .review-form-control {
+.review-form-control {
     font-family: inherit;
     padding: 0.5em;
     font-size: 0.875rem;
@@ -515,6 +515,10 @@ header {
 .review .review-body {
     font-size: 0.875rem;
     margin-bottom: 0.5rem;
+}
+
+.review .review-edit-form {
+    display: none;
 }
 
 /* Flash msgs */
@@ -586,6 +590,7 @@ header {
     border: 1px solid var(--clr-light-story-title);
     padding: 0.15em 0.4em;
     color: var(--clr-light-story-button);
+    cursor: pointer;
 }
 
 .btn-red-border {
@@ -593,6 +598,7 @@ header {
     border: 1px solid var(--clr-light-story-delete);
     padding: 0.15em 0.4em;
     color: var(--clr-light-story-delete);
+    cursor: pointer;
 }
 
 .btn-blue-bg {
@@ -601,6 +607,7 @@ header {
     padding: 0.3em 0.6em;
     color: var(--clr-dark-text-primary);
     border: none;
+    cursor: pointer;
 }
 
 .btn-red-bg {
@@ -608,48 +615,10 @@ header {
     background-color: var(--clr-light-story-delete);
     padding: 0.3em 0.6em;
     color: var(--clr-dark-text-primary);
+    border: none;
+    cursor: pointer;
 }
 
 .text-center {
     text-align: center;
 }
-
-
-/* @media (min-width: 37.6em) {
-    header {
-        display: flex;
-        justify-content: center;
-    }
-
-    .nav-button {
-        display:none;
-    }
-
-    .navbar {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    
-    .navbar .web-title {
-        margin: 0;
-    }
-    
-    .navbar .navbar-list {
-        display: flex;
-        text-align: none;
-        width: auto;
-        justify-content: space-evenly;
-        width: 30%;
-    }
-    
-    .navbar .navbar-list li {
-        background-color: transparent;
-        border-bottom: none;
-        padding: 0;
-    }
-
-    .main-content-width {
-        max-width: 1120px;
-    }
-    
-} */

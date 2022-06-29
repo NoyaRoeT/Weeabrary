@@ -21,6 +21,7 @@
     <p class="story-desc">
         <%= story.synopsis %>
     </p>
+
     <div class="story-chapter-list">
         <h3 class="story-chapter-list-title">Chapter List</h3>
         <ul class="chapter-list">
@@ -35,25 +36,38 @@
         </ul>
     </div>
 
-    <form action="/stories/<%= story.slug %>/reviews" method="POST" class="review-form">
-        <h3 class="review-form-heading">
-            <i class="fa-solid fa-pencil"></i> Write a Review
-        </h3>
-        <%- include('./reviews/_form_fields') %>
-        <button class="btn-blue-bg" type="submit">Create</button>
-    </form>
+    <% if (!currentUser) { %> 
+        <div class="review-form">
+            <h3 class="review-form-heading">
+                <i class="fa-solid fa-pencil"></i> <a href="/auth/login">Login to write a review</a>                
+            </h3>
+        </div>
+    <% } else { %> 
+        <form action="/stories/<%= story.slug %>/reviews<%= (currentUser.hasReview) ? `/${review.id}?_method=PUT` : '' %>" method="POST" class="review-form">
+            <h3 class="review-form-heading">
+                <i class="fa-solid fa-pencil"></i> <%= (currentUser.hasReview) ? 'Edit your review' : 'Write a review' %> 
+            </h3>
+            <%- include('./reviews/_form_fields') %>
+            <button class="btn-blue-bg" type="submit">Save</button>
+            <% if (currentUser.hasReview) { %>
+                <button type="submit" class="btn-red-bg" form="delete-review">Delete</button>
+            <% } %> 
+        </form>
+        <% if (currentUser.hasReview) { %>
+            <form action="/stories/<%=story.slug%>/reviews/<%=review.id%>?_method=DELETE" method="POST" id="delete-review"></form>
+        <% } %> 
 
+    <% } %> 
+    
     <% for (const review of reviews) { %> 
         <div class="review">
             <h4><%= review.author.username %></h4>
-            <h4 class="review-score">Rating: <%= review.rating %></h4>
-            <p class="review-body">
-                <%= review.review %>
-            </p>
-    
-            <form action="/stories/<%=story.slug%>/reviews/<%=review.id + "1rwerwe"%>?_method=DELETE" method="POST">
-                <button class="btn-red-bg" type="submit">Delete</button>
-            </form>
+            <div class="review-container">
+                <h4 class="review-score">Rating: <%= review.rating %></h4>
+                <p class="review-body">
+                    <%= review.review %>
+                </p>
+            </div>
         </div>
     <% } %> 
 </div>
