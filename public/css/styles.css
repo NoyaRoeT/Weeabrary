@@ -489,7 +489,7 @@ header {
 .review-form-field {
     display: flex;
     flex-direction: column;
-    margin-bottom: 0.925rem;
+    margin-bottom: 0.5rem;
 }
 
 .review-form-control {
@@ -501,18 +501,15 @@ header {
 /* Reviews */
 .review {
     border-top: 1px solid var(--clr-chapter-border);
-    padding: 0.4em;
+    padding: 0.8em 0.4em;
     font-size: 0.875rem;
 }
-.review .review-score {
-    font-size: 0.975rem;
-    margin-bottom: 0.4em;
-    border-bottom: 2px solid var(--clr-light-story-button);
-    display: inline-block;
-    font-weight: 400;
+.review .review-author {
+    margin-bottom: 0.2em;
 }
 
 .review .review-body {
+    margin-top: 1.5rem;
     font-size: 0.875rem;
     margin-bottom: 0.5rem;
 }

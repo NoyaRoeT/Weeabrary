@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/css/starability.css">
+
 <div class="content-header">
     <div class="content-wrapper page-content-header">
         <h2>Story Details</h2>
@@ -61,13 +63,13 @@
     
     <% for (const review of reviews) { %> 
         <div class="review">
-            <h4><%= review.author.username %></h4>
-            <div class="review-container">
-                <h4 class="review-score">Rating: <%= review.rating %></h4>
-                <p class="review-body">
-                    <%= review.review %>
-                </p>
-            </div>
+            <h4 class="review-author"><%= review.author.username %></h4>
+            <p class="starability-result" data-rating=<%=review.rating%>>
+                Rated: <%= review.rating %> stars.
+            </p>
+            <p class="review-body">
+                <%= review.review %>
+            </p>
         </div>
     <% } %> 
 </div>
